@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTable, titleSorting, subTitleSorting } from "../app/tableReducer";
+import { getTable } from "../app/tableReducer";
+import { titleSorting, subTitleSorting } from "../utils/sorting";
 import Loader from "./Loader";
 import Pagination from "./Pagination";
-
 import "./style.css";
 
 const Table = () => {
-  const [toggleCounter, setToggleCounter] = useState(0);
-  const { table, hasLoaded, toggleName } = useSelector((state) => state.table);
-  const { currentPage } = useSelector((state) => state.pagination);
-  const currentTablePage = table[currentPage - 1];
+  const [currentTablePage, setCurrentTablePage] = useState([]);
+  const [toggleCounter, setToggleCounter] = useState(1);
+  const [toggleName, setToggleName] = useState("№");
+  const { table } = useSelector((state) => state.table);
+  const { currentPage, perPage } = useSelector((state) => state.pagination);
+  const filteredCurrentTablePage = table.filter(
+    (it, index) =>
+      index >= (currentPage - 1) * perPage && index < currentPage * perPage
+  );
   const dispatch = useDispatch();
+  console.log("инициализация", `столбец "${toggleName}", кликов подряд:`, toggleCounter);
 
-  const title = table.length ? currentTablePage[0] : {};
+  const title = currentTablePage[0];
   let resultTitle = [];
   let subTitle = [];
   let subTitleIndex = null;
@@ -32,10 +38,15 @@ const Table = () => {
     dispatch(getTable());
   }, [dispatch]);
 
+  useEffect(() => {
+    setCurrentTablePage(filteredCurrentTablePage);
+    setToggleCounter(1)
+  }, [table, currentPage, dispatch]);
+
   return (
     <>
-      {!hasLoaded && <Loader />}
-      {hasLoaded && (
+      {!currentTablePage.length && <Loader />}
+      {!!currentTablePage.length && (
         <table cols={cols} align="center">
           <thead>
             <tr>
@@ -44,7 +55,10 @@ const Table = () => {
                   <th
                     rowSpan="2"
                     onClick={() => {
-                      dispatch(titleSorting(it));
+                      setCurrentTablePage(
+                        titleSorting(it, currentTablePage, toggleName)
+                      );
+                      setToggleName(it);
                       toggleName === it
                         ? setToggleCounter(toggleCounter + 1)
                         : setToggleCounter(1);
@@ -74,7 +88,15 @@ const Table = () => {
                 <th
                   key={it}
                   onClick={() => {
-                    dispatch(subTitleSorting("adress", it));
+                    setCurrentTablePage(
+                      subTitleSorting(
+                        "adress",
+                        currentTablePage,
+                        it,
+                        toggleName
+                      )
+                    );
+                    setToggleName(it);
                     toggleName === it
                       ? setToggleCounter(toggleCounter + 1)
                       : setToggleCounter(1);
@@ -102,19 +124,19 @@ const Table = () => {
                 <td>{item.lastName}</td>
                 <td>{item.email}</td>
                 <td>{item.phone}</td>
-                <td>{item.adress.streetAddress}</td>
-                <td>{item.adress.city}</td>
-                <td>{item.adress.state}</td>
-                <td>{item.adress.zip}</td>
+                <td>{item.adress?.streetAddress}</td>
+                <td>{item.adress?.city}</td>
+                <td>{item.adress?.state}</td>
+                <td>{item.adress?.zip}</td>
                 <td>{item.description}</td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
-      <Pagination />
+      <Pagination currentTablePage={currentTablePage}/>
     </>
   );
 };
 
-export default Table;
+export default React.memo(Table);
