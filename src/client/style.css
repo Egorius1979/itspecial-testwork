@@ -25,6 +25,10 @@ td {
   border: 1px solid black;
   background: #f8e391;
 }
+.string-hover:hover {
+  color: blue;
+  text-shadow: 6px 8px 5px #2d2020;
+}
 
 .arrow {
   width: 0;
@@ -80,3 +84,4 @@ td {
   left: 2px;
   box-shadow: 1px 1px 2px#000;
 }
+

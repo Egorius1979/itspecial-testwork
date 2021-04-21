@@ -3,7 +3,8 @@ import axios from "axios";
 
 const initialState = {
   table: [],
-  hasLoaded: false,
+  // hasLoaded: false,
+  filteredPage: null,
 };
 
 export const tableSlice = createSlice({
@@ -12,7 +13,10 @@ export const tableSlice = createSlice({
   reducers: {
     setTable: (state, action) => {
       state.table = action.payload;
-      state.hasLoaded = true;
+      // state.hasLoaded = true;
+    },
+    setFilteredPAge: (state, action) => {
+      state.filteredPage = action.payload;
     },
   },
 });
@@ -33,6 +37,6 @@ export function getTable() {
   };
 }
 
-export const { setCurrentTablePage } = tableSlice.actions;
+export const { setFilteredPAge } = tableSlice.actions;
 
 export default tableSlice.reducer;
