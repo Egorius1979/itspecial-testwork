@@ -9,21 +9,22 @@ const Filter = ({ currentTablePage }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-  if (!filteredPage) {
-    setForFiltering("");
-  }
-  }, [filteredPage])
-
+    if (!filteredPage) {
+      setForFiltering("");
+    }
+  }, [filteredPage]);
 
   return (
-    <>
+    <div className="flex search">
       <textarea
         name="filter"
         id=""
         cols="50"
         rows="5"
-        placeholder="фильтрация по нескольким полям строго через одинарный пробел"
+        placeholder="фильтрация по таблице"
+        title="фильтрация по нескольким полям через: пробел (многократные тоже); запятую; вариации запятая-пробел/пробел-запятая"
         autoFocus
+        className="fixed-field"
         value={forFiltering}
         onChange={(e) => {
           setForFiltering(e.target.value);
@@ -33,14 +34,13 @@ const Filter = ({ currentTablePage }) => {
         onClick={() =>
           dispatch(
             setFilteredPAge(
-              arrayOfStrings(currentTablePage, forFiltering.split(" "))
+              arrayOfStrings(currentTablePage, forFiltering.split(/, +| +|,/))
             )
           )
         }>
-        Нажми
+        Найти
       </button>
-      {/* {JSON.stringify(filteredPage)} */}
-    </>
+    </div>
   );
 };
 

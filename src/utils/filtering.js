@@ -10,7 +10,9 @@ export function arrayOfStrings(currentTablePage, arrayFromFilterSet) {
     str = "";
     return getSrtingFromProps(it, arrayFromFilterSet);
   });
-  return currentTablePage.filter((it, index) => result.includes(index + 1));
+  return currentTablePage
+    .filter((it, index) => result.includes(index + 1))
+    .sort((a, b) => a["№"] - b["№"]);
 }
 
 function getSrtingFromProps(obj, arrayFromFilterSet) {
@@ -26,7 +28,10 @@ function getSrtingFromProps(obj, arrayFromFilterSet) {
       }
     }
   }
-  if (arrayFromFilterSet.filter((it) => str.includes(it)).length === arrayFromFilterSet.length) {
+  if (
+    arrayFromFilterSet.filter((it) => str.includes(it)).length ===
+    arrayFromFilterSet.length
+  ) {
     result = [...result, counter];
   }
 }

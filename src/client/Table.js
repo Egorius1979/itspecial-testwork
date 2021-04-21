@@ -22,7 +22,7 @@ const Table = () => {
     toggleCounter
   );
 
-  const title = currentTablePage[0];
+  const title = table[0];
   let resultTitle = [];
   let subTitle = [];
   let subTitleIndex = null;
@@ -48,10 +48,13 @@ const Table = () => {
     );
     setCurrentTablePage(filteredCurrentTablePage);
     setToggleCounter(1);
+    setToggleName("№")
   }, [table, currentPage, perPage]);
 
   useEffect(() => {
     setFilteredDisplayPage(filteredPage);
+    setToggleCounter(1);
+    setToggleName("№")
   }, [filteredPage]);
 
   return (
@@ -105,20 +108,23 @@ const Table = () => {
                   <th
                     key={it}
                     onClick={() => {
-                      filteredDisplayPage ? setFilteredDisplayPage(subTitleSorting(
-                        "adress",
-                        filteredDisplayPage,
-                        it,
-                        toggleName
-                      )) :
-                      setCurrentTablePage(
-                        subTitleSorting(
-                          "adress",
-                          currentTablePage,
-                          it,
-                          toggleName
-                        )
-                      );
+                      filteredDisplayPage
+                        ? setFilteredDisplayPage(
+                            subTitleSorting(
+                              "adress",
+                              filteredDisplayPage,
+                              it,
+                              toggleName
+                            )
+                          )
+                        : setCurrentTablePage(
+                            subTitleSorting(
+                              "adress",
+                              currentTablePage,
+                              it,
+                              toggleName
+                            )
+                          );
                       setToggleName(it);
                       toggleName === it
                         ? setToggleCounter(toggleCounter + 1)

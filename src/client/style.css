@@ -7,12 +7,19 @@ table {
   text-align: center;
   min-width: 400px;
   width: 70%;
+  box-shadow: 7px 7px 7px #000;
 }
+th, td {
+  border: 1px solid black;
+}
+
+th, .pagination-btn:disabled, .search button {
+  color: #fff;
+}
+
 th {
   padding: 10px;
-  border: 1px solid black;
   background: #008b8b;
-  color: white;
   text-shadow: 0 1px 1px #2d2020;
   user-select: none;
 }
@@ -22,7 +29,6 @@ th:hover {
 td {
   font-size: 0.8em;
   padding: 5px 7px;
-  border: 1px solid black;
   background: #f8e391;
 }
 .string-hover:hover {
@@ -54,6 +60,7 @@ td {
 .flex {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .pagination {
@@ -62,26 +69,45 @@ td {
   margin: 20px auto;
 }
 
+.pagination-btn, .search button {
+  box-shadow: 5px 4px 3px #000;
+}
+
 .pagination-btn {
   width: 40px;
   height: 30px;
   margin: 0px 4px 20px;
-  box-shadow: 5px 4px 3px #000;
 }
 
 .pagination-btn:disabled {
   background-color: #000;
-  color: #fff;
   border-width: 1px;
   border-color: #fff;
   border-radius: 3px;
   outline: none;
 }
 
-.pagination-btn:active {
+.pagination-btn:active, .search button:active {
+  box-shadow: 1px 1px 2px#000;
   position: relative;
   top: 3px;
   left: 2px;
-  box-shadow: 1px 1px 2px#000;
 }
 
+.search {
+  padding: 20px;
+  flex-direction: column;
+
+}
+
+.fixed-field {
+  resize: none;
+  border: 2px solid #000;
+  margin-bottom: 15px;
+}
+
+.search button {
+  font-size: 16px;
+  padding: 5px 20px;
+  background: #DC143C;
+}
