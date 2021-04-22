@@ -1,19 +1,29 @@
+h3 {
+  text-align: center;
+  margin: 20px;
+}
+
 table {
-  margin-top: 30px;
+  margin: 20px auto;
   border-collapse: collapse;
   line-height: 1.1;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   color: #0c213b;
   text-align: center;
-  min-width: 400px;
-  width: 70%;
+  width: 60%;
   box-shadow: 7px 7px 7px #000;
 }
-th, td {
+
+th,
+td {
   border: 1px solid black;
 }
 
-th, .pagination-btn:disabled, .search button {
+th,
+.pagination-btn:disabled,
+.search button,
+.search textarea,
+.search textarea::placeholder {
   color: #fff;
 }
 
@@ -31,8 +41,22 @@ td {
   padding: 5px 7px;
   background: #f8e391;
 }
+
+@media screen and (max-width: 600px) {
+  thead {
+    font-size: 0.8rem;
+  }
+  tbody {
+    font-size: 0.7rem;
+  }
+}
+
+.adapt {
+  overflow-x: auto;
+}
+
 .string-hover:hover {
-  color: #8B008B;
+  color: #8b008b;
   text-shadow: 5px 5px 3px #808080;
 }
 
@@ -66,10 +90,11 @@ td {
 .pagination {
   display: flex;
   justify-content: center;
-  margin: 20px auto;
+  margin: 20px auto 30px;
 }
 
-.pagination-btn, .search button {
+.pagination-btn,
+.search button {
   box-shadow: 5px 4px 3px #000;
 }
 
@@ -87,7 +112,8 @@ td {
   outline: none;
 }
 
-.pagination-btn:active, .search button:active {
+.pagination-btn:active,
+.search button:active {
   box-shadow: 1px 1px 2px#000;
   position: relative;
   top: 3px;
@@ -100,16 +126,43 @@ td {
 }
 
 .search textarea {
+  width: 300px;
+  height: 70px;
   border: 2px solid #000;
+  background: #808080;
   margin-bottom: 15px;
 }
 
-.fixed-field  {
+.search textarea::placeholder {
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+font-size: 16px;
+text-align: center;
+padding-top: 10px;
+}
+
+.fixed-field {
   resize: none;
+  border-radius: 3px;
+  width: 300px;
+  min-height: 110px;
+}
+
+.fixed-field::placeholder {
+  color: #DC143C;
 }
 
 .search button {
   font-size: 16px;
   padding: 5px 20px;
-  background: #DC143C;
+  background: #dc143c;
+}
+
+.person {
+  width: fit-content;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: #DCDCDC;
+  border: 2px solid #CD5C5C;
+  border-radius: 5px;
+  box-shadow: 6px 6px 5px #000;
 }

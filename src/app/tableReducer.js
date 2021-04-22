@@ -6,6 +6,7 @@ const initialState = {
   hasLoaded: false,
   filteredTable: null,
   selectedPerson: null,
+  error: "",
 };
 
 export const tableSlice = createSlice({
@@ -22,6 +23,9 @@ export const tableSlice = createSlice({
     setSelectedPerson: (state, action) => {
       state.selectedPerson = action.payload;
     },
+    setError: (state, action) => {
+      state.error = action.err;
+    },
   },
 });
 
@@ -34,22 +38,25 @@ export function getTable() {
     )
       .then((res) => res.data.map((it, index) => ({ "№": index + 1, ...it })))
       .then((res) => dispatch({ type: "table/setTable", payload: res }))
-      .catch(
-        (err) =>
-          `Упс, что-то пошло не так. ${err} Тебе явно не помешает обновить страницу!`
+      .catch((err) =>
+        dispatch({
+          type: "table/setError",
+          err: `Упс, что-то пошло не так. ${err}. Тебе явно не помешает обновить страницу!`,
+        })
       );
   };
 }
 
 export function setFilteredTable(value) {
   return (dispatch, getState) => {
-    const { currentPage } = getState().pagination;
+    const { currentPage, perPage } = getState().pagination;
     if (value) {
-      if (value.length < currentPage) {
+      if (Math.ceil(value.length / perPage) >= currentPage) {
+        dispatch({ type: "table/setFilteredPAge", payload: value });
+      }
+      else {
         dispatch({ type: "table/setFilteredPAge", payload: value });
         dispatch({ type: "pagination/setCurrentPage", payload: 1 });
-      } else {
-        dispatch({ type: "table/setFilteredPAge", payload: value });
       }
     } else {
       dispatch({ type: "table/setFilteredPAge", payload: value });

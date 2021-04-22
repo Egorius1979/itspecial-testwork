@@ -5,7 +5,6 @@ let counter = 0;
 export function arrayOfStrings(currentTablePage, arrayFromFilterSet) {
   result = [];
   counter = 0;
-  console.log("click1");
   currentTablePage.map((it) => {
     str = "";
     return getSrtingFromProps(it, arrayFromFilterSet);
@@ -19,7 +18,6 @@ export function arrayOfStrings(currentTablePage, arrayFromFilterSet) {
 
 function getSrtingFromProps(obj, arrayFromFilterSet) {
   counter += 1;
-  console.log("click2");
   getProp(obj);
   function getProp(o) {
     for (let prop in o) {

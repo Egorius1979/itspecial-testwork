@@ -8,7 +8,7 @@ const Person = () => {
     <>
       {chel && (
         <div className="flex">
-          <div id="person">
+          <div className="person">
             <p>
               Выбран пользователь: <b>{`${chel.firstName} ${chel.lastName}`}</b>
             </p>
@@ -16,9 +16,7 @@ const Person = () => {
             <textarea
               disabled
               placeholder={chel.description}
-              cols="50"
-              rows="5"
-              className="fixed-field "
+              className="fixed-field"
             />
             <p>
               Адрес проживания: <b>{chel.adress?.streetAddress}</b>

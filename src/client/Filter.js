@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { arrayOfStrings } from "../utils/filtering";
-import { setFilteredTable } from "../app/tableReducer";
-import { setCurrentPage } from "../app/PaginationReducer";
+import { setFilteredTable, setSelectedPerson } from "../app/tableReducer";
 
 const Filter = ({ currentTablePage }) => {
   const [forFiltering, setForFiltering] = useState("");
-  // const { filteredTable } = useSelector((s) => s.table);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (!filteredTable) {
-  //     setForFiltering("");
-  //   }
-  // }, [filteredTable]);
 
   return (
     <div className="flex search">
       <textarea
         name="filter"
-        cols="50"
-        rows="5"
+        // cols="50"
+        // rows="5"
         placeholder="фильтр по таблице"
         title="фильтрация по нескольким полям через: пробел (многократные тоже); запятую; вариации запятая-пробел/пробел-запятая"
         autoFocus
-        className="fixed-field "
+        className="fixed-field"
         value={forFiltering}
         onChange={(e) => {
           setForFiltering(e.target.value);
@@ -33,17 +25,16 @@ const Filter = ({ currentTablePage }) => {
         type="button"
         onClick={() => {
           if (!forFiltering) {
-            dispatch(setFilteredTable(null))
-            // dispatch(setCurrentPage(1))
+            dispatch(setFilteredTable(null));
+            dispatch(setSelectedPerson(null));
           } else {
             dispatch(
               setFilteredTable(
                 arrayOfStrings(currentTablePage, forFiltering.split(/, +| +|,/))
               )
             );
-            // dispatch(setCurrentPage(1))
+            dispatch(setSelectedPerson(null));
           }
-
         }}>
         Найти
       </button>
