@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { arrayOfStrings } from "../utils/filtering";
-import { setFilteredTable, setSelectedPerson } from "../app/tableReducer";
+import { arrayOfStrings, filterCopy } from "../utils/filtering";
+import { setFilteredTable } from "../app/tableReducer";
 
 const Filter = ({ currentTablePage }) => {
   const [forFiltering, setForFiltering] = useState("");
@@ -11,8 +11,6 @@ const Filter = ({ currentTablePage }) => {
     <div className="flex search">
       <textarea
         name="filter"
-        // cols="50"
-        // rows="5"
         placeholder="фильтр по таблице"
         title="фильтрация по нескольким полям через: пробел (многократные тоже); запятую; вариации запятая-пробел/пробел-запятая"
         autoFocus
@@ -24,17 +22,18 @@ const Filter = ({ currentTablePage }) => {
       <button
         type="button"
         onClick={() => {
-          if (!forFiltering) {
-            dispatch(setFilteredTable(null));
-            dispatch(setSelectedPerson(null));
-          } else {
-            dispatch(
-              setFilteredTable(
-                arrayOfStrings(currentTablePage, forFiltering.split(/, +| +|,/))
-              )
-            );
-            dispatch(setSelectedPerson(null));
+          if (filterCopy !== forFiltering) {
+            if (!forFiltering) {
+              dispatch(setFilteredTable(null));
+            } else {
+              dispatch(
+                setFilteredTable(
+                  arrayOfStrings(currentTablePage, forFiltering)
+                )
+              );
+            }
           }
+
         }}>
         Найти
       </button>

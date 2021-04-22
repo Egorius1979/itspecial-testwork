@@ -12,7 +12,7 @@ const Table = () => {
   const [currentTablePage, setCurrentTablePage] = useState([]);
   const [toggleCounter, setToggleCounter] = useState(1);
   const [toggleName, setToggleName] = useState("№");
-  const { table, hasLoaded, filteredTable, error } = useSelector(
+  const { table, tableLayout, hasLoaded, filteredTable, error } = useSelector(
     (s) => s.table
   );
   const { currentPage, perPage } = useSelector((s) => s.pagination);
@@ -24,34 +24,20 @@ const Table = () => {
     toggleCounter
   );
 
-  const filteredCurrentTablePage = (filteredTable || table).filter(
-    (it, index) =>
-      index >= (currentPage - 1) * perPage && index < currentPage * perPage
-  );
-
-  const title = table[0];
-  let resultTitle = [];
-  let subTitle = [];
-  let subTitleIndex = null;
-
-  for (let key in title) {
-    if (typeof title[key] === "object") {
-      subTitle = Object.keys(title[key]);
-      subTitleIndex = resultTitle.length;
-    }
-    resultTitle = [...resultTitle, key];
-  }
-
-  const cols = resultTitle.length + subTitle.length - 1;
-
   useEffect(() => {
     dispatch(getTable());
   }, [dispatch]);
 
   useEffect(() => {
-    setCurrentTablePage(filteredCurrentTablePage);
-    setToggleCounter(1);
-    setToggleName("№");
+    if (table.length) {
+      const filteredCurrentTablePage = (filteredTable || table).filter(
+        (it, index) =>
+          index >= (currentPage - 1) * perPage && index < currentPage * perPage
+      );
+      setCurrentTablePage(filteredCurrentTablePage);
+      setToggleCounter(1);
+      setToggleName("№");
+    }
   }, [table, currentPage, filteredTable, perPage]);
 
   return (
@@ -62,21 +48,23 @@ const Table = () => {
         <>
           <Filter currentTablePage={table} />
           <div className="adapt">
-            <table cols={cols} align="center">
+            <table cols={tableLayout.cols} align="center">
               <thead>
                 <tr>
-                  {resultTitle.map((it, index) =>
-                    index !== subTitleIndex ? (
+                  {tableLayout.title.map((it, index) =>
+                    index !== tableLayout.subTitleIndex ? (
                       <th
                         rowSpan="2"
                         onClick={() => {
-                          setCurrentTablePage(
-                            titleSorting(it, currentTablePage, toggleName)
-                          );
-                          setToggleName(it);
-                          toggleName === it
-                            ? setToggleCounter(toggleCounter + 1)
-                            : setToggleCounter(1);
+                          if (currentTablePage.length) {
+                            setCurrentTablePage(
+                              titleSorting(it, currentTablePage, toggleName)
+                            );
+                            setToggleName(it);
+                            toggleName === it
+                              ? setToggleCounter(toggleCounter + 1)
+                              : setToggleCounter(1);
+                          }
                         }}
                         key={it}>
                         <div className="flex">
@@ -90,7 +78,7 @@ const Table = () => {
                       </th>
                     ) : (
                       <th
-                        colSpan={subTitle.length}
+                        colSpan={tableLayout.subTitle.length}
                         key={it}
                         className="cursor-none">
                         {it}
@@ -99,22 +87,24 @@ const Table = () => {
                   )}
                 </tr>
                 <tr>
-                  {subTitle.map((it) => (
+                  {tableLayout.subTitle.map((it) => (
                     <th
                       key={it}
                       onClick={() => {
-                        setCurrentTablePage(
-                          subTitleSorting(
-                            "adress",
-                            currentTablePage,
-                            it,
-                            toggleName
-                          )
-                        );
-                        setToggleName(it);
-                        toggleName === it
-                          ? setToggleCounter(toggleCounter + 1)
-                          : setToggleCounter(1);
+                        if (currentTablePage.length) {
+                          setCurrentTablePage(
+                            subTitleSorting(
+                              "adress",
+                              currentTablePage,
+                              it,
+                              toggleName
+                            )
+                          );
+                          setToggleName(it);
+                          toggleName === it
+                            ? setToggleCounter(toggleCounter + 1)
+                            : setToggleCounter(1);
+                        }
                       }}>
                       <div className="flex">
                         <span
@@ -144,9 +134,7 @@ const Table = () => {
                     <td>{item.lastName}</td>
                     <td>{item.email}</td>
                     <td>{item.phone}</td>
-                    <td>
-                      {item.adress?.streetAddress}
-                    </td>
+                    <td>{item.adress?.streetAddress}</td>
                     <td>{item.adress?.city}</td>
                     <td>{item.adress?.state}</td>
                     <td>{item.adress?.zip}</td>
@@ -158,7 +146,7 @@ const Table = () => {
           </div>
         </>
       )}
-      <Pagination currentTablePage={filteredCurrentTablePage.length} />
+      <Pagination ready={hasLoaded} />
       <Person />
     </>
   );

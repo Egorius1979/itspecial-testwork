@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentPage } from "../app/PaginationReducer";
-// import { setfilteredTable } from "../app/tableReducer";
 import { scrollTo } from "../utils/scroll";
 
 const Pagination = ({ ready }) => {
@@ -19,7 +18,7 @@ const Pagination = ({ ready }) => {
   const dispatch = useDispatch();
 
   return (
-    !ready &&
+    ready &&
     pages.length > 1 && (
       <div className="pagination">
         <button
@@ -28,7 +27,6 @@ const Pagination = ({ ready }) => {
           className="pagination-btn"
           onClick={() => {
             dispatch(setCurrentPage(1));
-            // dispatch(setfilteredTable(null));
             scrollTo();
           }}>
           {"<<"}
@@ -41,7 +39,6 @@ const Pagination = ({ ready }) => {
             key={index}
             onClick={() => {
               dispatch(setCurrentPage(page));
-              // dispatch(setfilteredTable(null));
               scrollTo();
             }}>
             {page}

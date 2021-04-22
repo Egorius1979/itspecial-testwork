@@ -1,19 +1,23 @@
+export let filterCopy = "";
 let str = "";
 let result = [];
 let counter = 0;
 
-export function arrayOfStrings(currentTablePage, arrayFromFilterSet) {
+export function arrayOfStrings(currentTablePage, forFiltering) {
   result = [];
   counter = 0;
+  filterCopy = forFiltering
+
+  const arrayFromFilterSet = forFiltering.split(/, +| +|,/)
   currentTablePage.map((it) => {
     str = "";
     return getSrtingFromProps(it, arrayFromFilterSet);
   });
 
   const resultArray = currentTablePage
-  .filter((it, index) => result.includes(index + 1))
-  .sort((a, b) => a["№"] - b["№"]);
-  return resultArray
+    .filter((it, index) => result.includes(index + 1))
+    .sort((a, b) => a["№"] - b["№"]);
+  return resultArray;
 }
 
 function getSrtingFromProps(obj, arrayFromFilterSet) {

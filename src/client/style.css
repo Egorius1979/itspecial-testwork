@@ -134,10 +134,10 @@ td {
 }
 
 .search textarea::placeholder {
-font-family: Verdana, Geneva, Tahoma, sans-serif;
-font-size: 16px;
-text-align: center;
-padding-top: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+  text-align: center;
+  padding-top: 10px;
 }
 
 .fixed-field {
@@ -148,7 +148,7 @@ padding-top: 10px;
 }
 
 .fixed-field::placeholder {
-  color: #DC143C;
+  color: #dc143c;
 }
 
 .search button {
@@ -161,8 +161,8 @@ padding-top: 10px;
   width: fit-content;
   padding: 10px;
   margin-bottom: 20px;
-  background: #DCDCDC;
-  border: 2px solid #CD5C5C;
+  background: #dcdcdc;
+  border: 2px solid #cd5c5c;
   border-radius: 5px;
   box-shadow: 6px 6px 5px #000;
 }
