@@ -10,9 +10,11 @@ export function arrayOfStrings(currentTablePage, arrayFromFilterSet) {
     str = "";
     return getSrtingFromProps(it, arrayFromFilterSet);
   });
-  return currentTablePage
-    .filter((it, index) => result.includes(index + 1))
-    .sort((a, b) => a["№"] - b["№"]);
+
+  const resultArray = currentTablePage
+  .filter((it, index) => result.includes(index + 1))
+  .sort((a, b) => a["№"] - b["№"]);
+  return resultArray
 }
 
 function getSrtingFromProps(obj, arrayFromFilterSet) {

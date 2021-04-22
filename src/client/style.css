@@ -32,8 +32,8 @@ td {
   background: #f8e391;
 }
 .string-hover:hover {
-  color: blue;
-  text-shadow: 6px 8px 5px #2d2020;
+  color: #8B008B;
+  text-shadow: 5px 5px 3px #808080;
 }
 
 .arrow {
@@ -97,13 +97,15 @@ td {
 .search {
   padding: 20px;
   flex-direction: column;
-
 }
 
-.fixed-field {
-  resize: none;
+.search textarea {
   border: 2px solid #000;
   margin-bottom: 15px;
+}
+
+.fixed-field  {
+  resize: none;
 }
 
 .search button {

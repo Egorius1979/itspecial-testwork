@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTable } from "../app/tableReducer";
+import { getTable, setSelectedPerson } from "../app/tableReducer";
 import { titleSorting, subTitleSorting } from "../utils/sorting";
 import Filter from "./Filter";
 import Loader from "./Loader";
+import Person from "./Person";
 import Pagination from "./Pagination";
 import "./style.css";
 
 const Table = () => {
   const [currentTablePage, setCurrentTablePage] = useState([]);
-  const [filteredDisplayPage, setFilteredDisplayPage] = useState(null);
+  // const [filteredDisplayPage, setFilteredDisplayPage] = useState(null);
   const [toggleCounter, setToggleCounter] = useState(1);
   const [toggleName, setToggleName] = useState("№");
-  const { table, filteredPage } = useSelector((state) => state.table);
-  const { currentPage, perPage } = useSelector((state) => state.pagination);
+  const { table, hasLoaded, filteredTable } = useSelector((s) => s.table);
+  const { currentPage, perPage } = useSelector((s) => s.pagination);
   const dispatch = useDispatch();
 
   console.log(
     "инициализация",
     `столбец "${toggleName}", кликов подряд:`,
     toggleCounter
+  );
+
+  const filteredCurrentTablePage = (filteredTable || table).filter(
+    (it, index) =>
+      index >= (currentPage - 1) * perPage && index < currentPage * perPage
   );
 
   const title = table[0];
@@ -42,27 +48,27 @@ const Table = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const filteredCurrentTablePage = table.filter(
-      (it, index) =>
-        index >= (currentPage - 1) * perPage && index < currentPage * perPage
-    );
+    // const filteredCurrentTablePage = table.filter(
+    //   (it, index) =>
+    //     index >= (currentPage - 1) * perPage && index < currentPage * perPage
+    // );
     setCurrentTablePage(filteredCurrentTablePage);
     setToggleCounter(1);
-    setToggleName("№")
-  }, [table, currentPage, perPage]);
+    setToggleName("№");
+  }, [table, currentPage, filteredTable, perPage]);
 
-  useEffect(() => {
-    setFilteredDisplayPage(filteredPage);
-    setToggleCounter(1);
-    setToggleName("№")
-  }, [filteredPage]);
+  // useEffect(() => {
+  //   setFilteredDisplayPage(filteredTable);
+  //   setToggleCounter(1);
+  //   setToggleName("№")
+  // }, [filteredTable]);
 
   return (
     <>
-      {!currentTablePage.length && <Loader />}
-      {!!currentTablePage.length && (
+      {!hasLoaded && <Loader />}
+      {hasLoaded && (
         <>
-          <Filter currentTablePage={currentTablePage} />
+          <Filter currentTablePage={table} />
           <table cols={cols} align="center">
             <thead>
               <tr>
@@ -71,13 +77,14 @@ const Table = () => {
                     <th
                       rowSpan="2"
                       onClick={() => {
-                        filteredDisplayPage
-                          ? setFilteredDisplayPage(
-                              titleSorting(it, filteredDisplayPage, toggleName)
-                            )
-                          : setCurrentTablePage(
-                              titleSorting(it, currentTablePage, toggleName)
-                            );
+                        // filteredDisplayPage
+                        //   ? setFilteredDisplayPage(
+                        //       titleSorting(it, filteredDisplayPage, toggleName)
+                        //     )
+                        //   :
+                        setCurrentTablePage(
+                          titleSorting(it, currentTablePage, toggleName)
+                        );
                         setToggleName(it);
                         toggleName === it
                           ? setToggleCounter(toggleCounter + 1)
@@ -108,23 +115,24 @@ const Table = () => {
                   <th
                     key={it}
                     onClick={() => {
-                      filteredDisplayPage
-                        ? setFilteredDisplayPage(
-                            subTitleSorting(
-                              "adress",
-                              filteredDisplayPage,
-                              it,
-                              toggleName
-                            )
-                          )
-                        : setCurrentTablePage(
-                            subTitleSorting(
-                              "adress",
-                              currentTablePage,
-                              it,
-                              toggleName
-                            )
-                          );
+                      // filteredDisplayPage
+                      //   ? setFilteredDisplayPage(
+                      //       subTitleSorting(
+                      //         "adress",
+                      //         filteredDisplayPage,
+                      //         it,
+                      //         toggleName
+                      //       )
+                      //     )
+                      //   :
+                      setCurrentTablePage(
+                        subTitleSorting(
+                          "adress",
+                          currentTablePage,
+                          it,
+                          toggleName
+                        )
+                      );
                       setToggleName(it);
                       toggleName === it
                         ? setToggleCounter(toggleCounter + 1)
@@ -143,11 +151,13 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {(filteredDisplayPage || currentTablePage).map((item, index) => (
+              {currentTablePage.map((item, index) => (
                 <tr
                   key={item.email}
                   className="string-hover"
-                  id={`srt${index + 1}`}>
+                  onClick={() => {
+                    dispatch(setSelectedPerson(item));
+                  }}>
                   <td>
                     <b>{item["№"]}</b>
                   </td>
@@ -167,7 +177,8 @@ const Table = () => {
           </table>
         </>
       )}
-      <Pagination currentTablePage={currentTablePage} />
+      <Pagination currentTablePage={filteredCurrentTablePage.length} />
+      <Person />
     </>
   );
 };

@@ -3,8 +3,9 @@ import axios from "axios";
 
 const initialState = {
   table: [],
-  // hasLoaded: false,
-  filteredPage: null,
+  hasLoaded: false,
+  filteredTable: null,
+  selectedPerson: null,
 };
 
 export const tableSlice = createSlice({
@@ -13,10 +14,13 @@ export const tableSlice = createSlice({
   reducers: {
     setTable: (state, action) => {
       state.table = action.payload;
-      // state.hasLoaded = true;
+      state.hasLoaded = true;
     },
     setFilteredPAge: (state, action) => {
-      state.filteredPage = action.payload;
+      state.filteredTable = action.payload;
+    },
+    setSelectedPerson: (state, action) => {
+      state.selectedPerson = action.payload;
     },
   },
 });
@@ -37,6 +41,22 @@ export function getTable() {
   };
 }
 
-export const { setFilteredPAge } = tableSlice.actions;
+export function setFilteredTable(value) {
+  return (dispatch, getState) => {
+    const { currentPage } = getState().pagination;
+    if (value) {
+      if (value.length < currentPage) {
+        dispatch({ type: "table/setFilteredPAge", payload: value });
+        dispatch({ type: "pagination/setCurrentPage", payload: 1 });
+      } else {
+        dispatch({ type: "table/setFilteredPAge", payload: value });
+      }
+    } else {
+      dispatch({ type: "table/setFilteredPAge", payload: value });
+    }
+  };
+}
+
+export const { setSelectedPerson } = tableSlice.actions;
 
 export default tableSlice.reducer;
