@@ -15,12 +15,10 @@ export const tableSlice = createSlice({
   initialState,
   reducers: {
     setTable: (state, action) => {
-      console.log("table")
       state.table = action.payload;
       state.hasLoaded = true;
     },
     setTableLayout: (state, action) => {
-      console.log("layout")
       state.tableLayout = action.payload;
     },
     setFilteredPAge: (state, action) => {
@@ -72,9 +70,6 @@ export function getTable() {
 }
 
 export function setFilteredTable(value) {
-  // if (typeof value === 'string') {
-  //   return
-  // }
   return (dispatch, getState) => {
     const { currentPage, perPage } = getState().pagination;
     if (value) {

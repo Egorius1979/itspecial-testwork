@@ -18,12 +18,6 @@ const Table = () => {
   const { currentPage, perPage } = useSelector((s) => s.pagination);
   const dispatch = useDispatch();
 
-  console.log(
-    "инициализация",
-    `столбец "${toggleName}", кликов подряд:`,
-    toggleCounter
-  );
-
   useEffect(() => {
     dispatch(getTable());
   }, [dispatch]);
