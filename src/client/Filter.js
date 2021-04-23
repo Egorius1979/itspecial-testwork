@@ -28,7 +28,7 @@ const Filter = ({ currentTablePage }) => {
             } else {
               dispatch(
                 setFilteredTable(
-                  arrayOfStrings(currentTablePage, forFiltering)
+                  arrayOfStrings(currentTablePage, forFiltering.toLowerCase())
                 )
               );
             }

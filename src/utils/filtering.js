@@ -6,9 +6,10 @@ let counter = 0;
 export function arrayOfStrings(currentTablePage, forFiltering) {
   result = [];
   counter = 0;
+  console.log(forFiltering)
   filterCopy = forFiltering
 
-  const arrayFromFilterSet = forFiltering.split(/, +| +|,/)
+  const arrayFromFilterSet = forFiltering.split(/, +| +|,|	/)
   currentTablePage.map((it) => {
     str = "";
     return getSrtingFromProps(it, arrayFromFilterSet);
@@ -28,10 +29,11 @@ function getSrtingFromProps(obj, arrayFromFilterSet) {
       if (typeof o[prop] === "object") {
         getProp(o[prop]);
       } else {
-        str = `${str} ` + o[prop];
+        str = `${str} ${o[prop]}`;
       }
     }
   }
+  str = str.toLowerCase()
   if (
     arrayFromFilterSet.filter((it) => str.includes(it)).length ===
     arrayFromFilterSet.length
