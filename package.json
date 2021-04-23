@@ -2,7 +2,7 @@
   "name": "itspecial-testwork",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Egorius1979.github.io/itspecial-testwork/",
+  "homepage": "http://Egorius1979.github.io/itspecial-testwork/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
