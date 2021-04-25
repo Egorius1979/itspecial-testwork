@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { arrayOfStrings, filterCopy } from "../utils/filtering";
+import { useDispatch, useSelector } from "react-redux";
+import { filteredTable, filterCopy } from "../utils/filtering";
 import { setFilteredTable } from "../app/tableReducer";
 
-const Filter = ({ currentTablePage }) => {
+const Filter = () => {
+  const { stringArrayforFilter, table } = useSelector((s) => s.table);
   const [forFiltering, setForFiltering] = useState("");
   const dispatch = useDispatch();
 
@@ -28,12 +29,15 @@ const Filter = ({ currentTablePage }) => {
             } else {
               dispatch(
                 setFilteredTable(
-                  arrayOfStrings(currentTablePage, forFiltering.toLowerCase())
+                  filteredTable(
+                    stringArrayforFilter,
+                    forFiltering.toLowerCase(),
+                    table
+                  )
                 )
               );
             }
           }
-
         }}>
         Найти
       </button>

@@ -40,7 +40,7 @@ const Table = () => {
       {error && <h3>{error}</h3>}
       {hasLoaded && (
         <>
-          <Filter currentTablePage={table} />
+          <Filter />
           <div className="adapt">
             <table cols={tableLayout.cols} align="center">
               <thead>
@@ -113,7 +113,7 @@ const Table = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentTablePage.map((item, index) => (
+                {currentTablePage.map((item) => (
                   <tr
                     key={item.email}
                     className="string-hover"

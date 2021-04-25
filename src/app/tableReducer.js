@@ -8,6 +8,7 @@ const initialState = {
   filteredTable: null,
   selectedPerson: null,
   error: "",
+  stringArrayforFilter: [],
 };
 
 export const tableSlice = createSlice({
@@ -29,6 +30,9 @@ export const tableSlice = createSlice({
     },
     setError: (state, action) => {
       state.error = action.err;
+    },
+    setStringArrayforFilter: (state, action) => {
+      state.stringArrayforFilter = action.payload;
     },
   },
 });
@@ -59,6 +63,27 @@ export function getTable() {
 
         dispatch({ type: "table/setTableLayout", payload: tableLayout });
         dispatch({ type: "table/setTable", payload: res });
+
+        let strFromTableRow = "";
+        let result = [];
+
+        res.map((it) => {
+          strFromTableRow = "";
+          getProp(it);
+          function getProp(o) {
+            for (let prop in o) {
+              if (typeof o[prop] === "object") {
+                getProp(o[prop]);
+              } else {
+                strFromTableRow = `${strFromTableRow} ${o[prop]}`;
+              }
+            }
+          }
+          strFromTableRow = strFromTableRow.toLowerCase();
+          return (result = [...result, strFromTableRow]);
+        });
+
+        dispatch({ type: "table/setStringArrayforFilter", payload: result });
       })
       .catch((err) =>
         dispatch({
@@ -72,13 +97,9 @@ export function getTable() {
 export function setFilteredTable(value) {
   return (dispatch, getState) => {
     const { currentPage, perPage } = getState().pagination;
-    if (value) {
-      if (Math.ceil(value.length / perPage) >= currentPage) {
-        dispatch({ type: "table/setFilteredPAge", payload: value });
-      } else {
-        dispatch({ type: "table/setFilteredPAge", payload: value });
-        dispatch({ type: "pagination/setCurrentPage", payload: 1 });
-      }
+    if (value && Math.ceil(value.length / perPage) < currentPage) {
+      dispatch({ type: "table/setFilteredPAge", payload: value });
+      dispatch({ type: "pagination/setCurrentPage", payload: 1 });
     } else {
       dispatch({ type: "table/setFilteredPAge", payload: value });
     }
