@@ -16,7 +16,7 @@ export function filteredTable(stringArrayforFilter, forFiltering, table) {
   }
 
   const resultArray = table
-    .filter((it, index) => result.includes(index + 1))
+    .filter((it, index) => result.includes(index))
     .sort((a, b) => a["№"] - b["№"]);
   return resultArray;
 }
