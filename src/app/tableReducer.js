@@ -82,7 +82,6 @@ export function getTable() {
           strFromTableRow = strFromTableRow.toLowerCase();
           return (result = [...result, strFromTableRow]);
         });
-
         dispatch({ type: "table/setStringArrayforFilter", payload: result });
       })
       .catch((err) =>
