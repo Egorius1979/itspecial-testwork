@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Table from "./client/Table";
+import Table from './client/Table';
 
 const App = () => {
   return (

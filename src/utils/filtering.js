@@ -1,4 +1,4 @@
-export let filterCopy = "";
+export let filterCopy = '';
 let result = [];
 
 export function filteredTable(stringArrayforFilter, forFiltering, table) {
@@ -17,6 +17,6 @@ export function filteredTable(stringArrayforFilter, forFiltering, table) {
 
   const resultArray = table
     .filter((it, index) => result.includes(index))
-    .sort((a, b) => a["№"] - b["№"]);
+    .sort((a, b) => a['№'] - b['№']);
   return resultArray;
 }

@@ -1,7 +1,7 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setCurrentPage } from "../app/PaginationReducer";
-import { scrollTo } from "../utils/scroll";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentPage } from '../app/PaginationReducer';
+import { scrollTo } from '../utils/scroll';
 
 const Pagination = ({ ready }) => {
   const { currentPage, perPage } = useSelector((s) => s.pagination);
@@ -11,7 +11,7 @@ const Pagination = ({ ready }) => {
   );
   const pagesCount =
     filteredTableTotalAmount !== null &&
-    typeof filteredTableTotalAmount !== "undefined"
+    typeof filteredTableTotalAmount !== 'undefined'
       ? Math.ceil(filteredTableTotalAmount / perPage)
       : Math.ceil(totalAmount / perPage);
   const pages = new Array(pagesCount).fill(null).map((it, index) => index + 1);
@@ -29,7 +29,7 @@ const Pagination = ({ ready }) => {
             dispatch(setCurrentPage(1));
             scrollTo();
           }}>
-          {"<<"}
+          {'<<'}
         </button>
         {pages.map((page, index) => (
           <button
@@ -53,7 +53,7 @@ const Pagination = ({ ready }) => {
             // dispatch(setfilteredTable(null));
             scrollTo();
           }}>
-          {">>"}
+          {'>>'}
         </button>
       </div>
     )
